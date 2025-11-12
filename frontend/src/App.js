@@ -58,21 +58,23 @@ const AnimatedRoutes = () => {
 
 function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <SettingsProvider>
-          <ToastProvider>
-            <Router>
-              <GlobalSecurity />
-              <GlassNavbar />
-              <main className="page-content">
-                <AnimatedRoutes />
-              </main>
-            </Router>
-          </ToastProvider>
-        </SettingsProvider>
-      </AuthProvider>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <AuthProvider>
+          <SettingsProvider>
+            <ToastProvider>
+              <Router>
+                <GlobalSecurity />
+                <GlassNavbar />
+                <main className="page-content">
+                  <AnimatedRoutes />
+                </main>
+              </Router>
+            </ToastProvider>
+          </SettingsProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 

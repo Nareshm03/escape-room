@@ -12,9 +12,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "build": "cross-env DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "eslint src --ext .js,.jsx",
     "vercel-build": "npm run build"
   },
   "eslintConfig": {
@@ -46,6 +47,8 @@
     "@axe-core/react": "^4.11.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.57.0",
     "jest-axe": "^10.0.0"
   }
 }
