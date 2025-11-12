@@ -3,10 +3,17 @@ const connectDB = require('../backend/src/utils/mongodb');
 
 let isConnected = false;
 
-module.exports = async (req, res) => {
+const handler = async (req, res) => {
   if (!isConnected) {
-    await connectDB();
-    isConnected = true;
+    try {
+      await connectDB();
+      isConnected = true;
+    } catch (error) {
+      console.error('DB connection failed:', error);
+      return res.status(500).json({ error: 'Database connection failed' });
+    }
   }
   return app(req, res);
 };
+
+module.exports = handler;
