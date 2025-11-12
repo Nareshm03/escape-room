@@ -5,6 +5,7 @@ import api from '../services/api';
 import { useToast } from '../utils/ToastContext';
 import AdminControlPanel from '../components/AdminControlPanel';
 import QuizShortcut from '../components/QuizShortcut';
+import EventControlPanel from '../components/EventControlPanel';
 import '../styles/AdminDashboard.css';
 
 const AnimatedCounter = ({ value, duration = 1000 }) => {
@@ -104,7 +105,7 @@ const AdminDashboard = () => {
     averageScore: 0
   });
   const [loading, setLoading] = useState(true);
-  const { error: showError } = useToast();
+  const { success, error: showError } = useToast();
 
   useEffect(() => {
     fetchStats();
@@ -126,20 +127,37 @@ const AdminDashboard = () => {
   const calculateProgress = (value, max) => Math.min((value / max) * 100, 100);
 
   return (
-    <div className="page-container">
+    <div className="page-container" style={{ maxWidth: '1400px', padding: '40px 24px' }}>
       <motion.div
         className="admin-dashboard"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <div className="dashboard-header">
-          <h1>Admin Dashboard</h1>
-          <p className="caption">Manage your escape room platform</p>
+        <div className="dashboard-header" style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <h1 style={{
+            fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+            fontWeight: '800',
+            background: 'linear-gradient(135deg, #a78bfa, #ec4899)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            marginBottom: '12px',
+            letterSpacing: '-1px'
+          }}>Admin Dashboard</h1>
+          <p style={{ 
+            fontSize: '18px', 
+            color: 'rgba(230, 238, 248, 0.8)', 
+            lineHeight: '1.6' 
+          }}>Manage your escape room platform</p>
         </div>
 
         {/* Header Summary Zone */}
-        <div className="summary-zone">
+        <div className="summary-zone" style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+          gap: '24px',
+          marginBottom: '48px'
+        }}>
           <StatCard
             icon="👥"
             value={stats.totalTeams}
@@ -171,9 +189,19 @@ const AdminDashboard = () => {
         </div>
 
         {/* Quick Actions Zone */}
-        <div className="actions-zone">
-          <h2>Quick Actions</h2>
-          <div className="actions-grid">
+        <div className="actions-zone" style={{ marginBottom: '48px' }}>
+          <h2 style={{
+            fontSize: '1.75rem',
+            fontWeight: '700',
+            color: '#e6eef8',
+            marginBottom: '24px',
+            letterSpacing: '-0.5px'
+          }}>Quick Actions</h2>
+          <div className="actions-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '16px'
+          }}>
             <QuickActionButton
               to="/teams"
               gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
@@ -206,12 +234,51 @@ const AdminDashboard = () => {
         </div>
 
         {/* Admin Control Panel */}
-        <AdminControlPanel />
+        <div style={{ marginBottom: '32px' }}>
+          <AdminControlPanel />
+        </div>
+
+        {/* Clear Data Section */}
+        <div style={{ marginBottom: '32px', padding: '24px', background: 'rgba(239, 68, 68, 0.1)', border: '2px solid #ef4444', borderRadius: '12px' }}>
+          <h3 style={{ color: '#ef4444', marginBottom: '12px', fontSize: '1.25rem', fontWeight: '700' }}>⚠️ Danger Zone</h3>
+          <p style={{ color: '#e6eef8', marginBottom: '16px', fontSize: '0.95rem' }}>Clear all quiz submissions, results, and leaderboard data. This action cannot be undone.</p>
+          <button
+            onClick={async () => {
+              if (window.confirm('Are you sure you want to delete ALL quiz submissions and results? This cannot be undone!')) {
+                try {
+                  await api.delete('/api/results/clear-all');
+                  success('All data cleared successfully!');
+                  fetchStats();
+                } catch (err) {
+                  showError('Failed to clear data');
+                }
+              }
+            }}
+            style={{ padding: '12px 24px', background: '#ef4444', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600' }}
+          >
+            🗑️ Clear All Data
+          </button>
+        </div>
+
+        {/* Event Control Panel */}
+        <div style={{ marginBottom: '48px' }}>
+          <EventControlPanel />
+        </div>
 
         {/* Admin Control Zone */}
         <div className="control-zone">
-          <h2>Admin Controls</h2>
-          <div className="control-grid">
+          <h2 style={{
+            fontSize: '1.75rem',
+            fontWeight: '700',
+            color: '#e6eef8',
+            marginBottom: '24px',
+            letterSpacing: '-0.5px'
+          }}>Admin Controls</h2>
+          <div className="control-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '24px'
+          }}>
             <ControlCard
               to="/admin/event-control"
               icon="📅"

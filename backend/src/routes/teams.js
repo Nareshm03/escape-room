@@ -7,26 +7,24 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const teams = await Team.find()
-      .populate('createdBy', 'name')
-      .populate('members.user', 'name email')
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
 
     const teamsWithCounts = teams.map(team => ({
       id: team._id,
       name: team.name,
-      description: team.description,
-      created_by: team.createdBy._id,
-      created_by_name: team.createdBy.name || 'System',
+      description: team.description || '',
+      created_by: team.createdBy || null,
+      created_by_name: 'Admin',
       created_at: team.createdAt,
       updated_at: team.updatedAt,
-      member_count: team.members.length
+      member_count: team.members?.length || 0
     }));
 
-    console.log('Teams query result:', teamsWithCounts);
+    console.log('Teams query result:', teamsWithCounts.length, 'teams');
     res.json(teamsWithCounts);
   } catch (error) {
     console.error('Teams fetch error:', error);
-    console.error('Error details:', error.message);
     res.status(500).json({ error: 'Failed to get teams: ' + error.message });
   }
 });

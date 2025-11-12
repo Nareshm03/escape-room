@@ -22,20 +22,20 @@ const GlassNavbar = () => {
           <Link to="/teams" className={`glass-nav-link ${isActive('/teams') ? 'active' : ''}`}>
             Teams
           </Link>
-          <Link to="/game" className={`glass-nav-link ${isActive('/game') ? 'active' : ''}`}>
-            Game
+          <Link to="/quiz-list" className={`glass-nav-link ${isActive('/quiz-list') ? 'active' : ''}`}>
+            Quizzes
           </Link>
-          {user.role === 'admin' && (
-            <Link to="/admin" className={`glass-nav-link ${isActive('/admin') ? 'active' : ''}`}>
-              Admin
-            </Link>
-          )}
           <Link to="/results" className={`glass-nav-link ${isActive('/results') ? 'active' : ''}`}>
             Results
           </Link>
-          <Link to="/settings" className={`glass-nav-link ${isActive('/settings') ? 'active' : ''}`}>
-            Settings
+          <Link to="/live" className={`glass-nav-link ${isActive('/live') ? 'active' : ''}`}>
+            🔴 Live
           </Link>
+          {user?.email === 'admin@escaperoom.com' && (
+            <Link to="/admin" className={`glass-nav-link ${isActive('/admin') ? 'active' : ''}`}>
+              ⚡ Admin
+            </Link>
+          )}
           <button onClick={logout} className="btn-glass" style={{ padding: '8px 16px', fontSize: '14px' }}>
             Logout
           </button>

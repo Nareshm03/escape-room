@@ -5,10 +5,10 @@ const router = express.Router();
 
 // Create quiz (admin)
 router.post('/create', async (req, res) => {
-  const { title, description, questions, totalTimeMinutes, sequential_unlock_enabled } = req.body;
+  const { title, description, questions, totalTimeMinutes, isPublished } = req.body;
   const quizLink = Math.random().toString(36).substring(2, 15);
 
-  console.log('Creating quiz:', { title, description, questionsCount: questions?.length, totalTimeMinutes, sequential_unlock_enabled });
+  console.log('Creating quiz:', { title, description, questionsCount: questions?.length, totalTimeMinutes, isPublished });
 
   try {
     const quiz = new Quiz({
@@ -16,8 +16,8 @@ router.post('/create', async (req, res) => {
       description,
       quizLink,
       totalTimeMinutes: totalTimeMinutes || 30,
-      sequential_unlock_enabled: sequential_unlock_enabled !== undefined ? sequential_unlock_enabled : true,
-      createdBy: null, // Temporarily set to null until proper auth is implemented
+      isPublished: isPublished || false,
+      createdBy: null,
       questions: questions.map((q, index) => ({
         questionText: q.question,
         correctAnswer: q.answer,
@@ -28,8 +28,8 @@ router.post('/create', async (req, res) => {
 
     await quiz.save();
 
-    console.log('Quiz created successfully:', quiz._id);
-    res.json({ quiz, link: `/quiz/${quizLink}` });
+    console.log('Quiz created successfully:', quiz._id, 'Published:', quiz.isPublished);
+    res.status(201).json({ quiz, link: `/quiz/${quizLink}` });
   } catch (error) {
     console.error('Quiz creation error:', error);
     res.status(500).json({ error: 'Failed to create quiz: ' + error.message });
@@ -194,6 +194,48 @@ router.post('/:link/submit', async (req, res) => {
   }
 });
 
+// Get single quiz by ID (admin)
+router.get('/:id/edit', async (req, res) => {
+  try {
+    const quiz = await Quiz.findById(req.params.id);
+    if (!quiz) {
+      return res.status(404).json({ error: 'Quiz not found' });
+    }
+    res.json({ quiz });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get quiz: ' + error.message });
+  }
+});
+
+// Update quiz (admin)
+router.put('/:id', async (req, res) => {
+  try {
+    const { title, description, totalTimeMinutes, questions, isPublished } = req.body;
+    const quiz = await Quiz.findByIdAndUpdate(
+      req.params.id,
+      {
+        title,
+        description,
+        totalTimeMinutes,
+        isPublished: isPublished !== undefined ? isPublished : false,
+        questions: questions.map((q, index) => ({
+          questionText: q.question,
+          correctAnswer: q.answer,
+          questionOrder: index + 1,
+          timeLimitSeconds: q.timeLimit || 120
+        }))
+      },
+      { new: true }
+    );
+    if (!quiz) {
+      return res.status(404).json({ error: 'Quiz not found' });
+    }
+    res.json({ quiz });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update quiz: ' + error.message });
+  }
+});
+
 // Get all quizzes with pagination (admin)
 router.get('/', async (req, res) => {
   try {
@@ -237,7 +279,10 @@ router.delete('/:id', async (req, res) => {
     if (!quiz) {
       return res.status(404).json({ error: 'Quiz not found' });
     }
-    res.json({ message: 'Quiz deleted successfully' });
+    // Delete all submissions related to this quiz
+    await QuizSubmission.deleteMany({ quiz: req.params.id });
+    console.log('Quiz and related submissions deleted:', req.params.id);
+    res.json({ message: 'Quiz and all related data deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete quiz: ' + error.message });
   }

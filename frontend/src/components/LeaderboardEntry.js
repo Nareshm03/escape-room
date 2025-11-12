@@ -8,13 +8,13 @@ const LeaderboardEntry = ({ entry, rank, onRankChange }) => {
   const getTierGradient = (rank) => {
     switch (rank) {
       case 1:
-        return 'linear-gradient(135deg, #fef3c7 0%, #ffffff 100%)';
+        return 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)';
       case 2:
-        return 'linear-gradient(135deg, #e5e7eb 0%, #ffffff 100%)';
+        return 'linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)';
       case 3:
-        return 'linear-gradient(135deg, #fed7aa 0%, #ffffff 100%)';
+        return 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)';
       default:
-        return 'linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(249, 250, 251, 0.7) 100%)';
+        return 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)';
     }
   };
 
@@ -50,12 +50,12 @@ const LeaderboardEntry = ({ entry, rank, onRankChange }) => {
         </motion.div>
       </div>
 
-      <div className="entry-content">
-        <div className="entry-main">
-          <h3 className="entry-name">{entry.team_name}</h3>
-          <div className="entry-score">
-            <span className="score-value">{entry.percentage}%</span>
-            <span className="score-detail">{entry.score}/{entry.total_questions}</span>
+      <div className="entry-content" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px' }}>
+        <div className="entry-main" style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1 }}>
+          <h3 className="entry-name" style={{ fontSize: '1.25rem', fontWeight: '700', color: '#fff', margin: 0 }}>{entry.team_name}</h3>
+          <div className="entry-score" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span className="score-value" style={{ fontSize: '1.5rem', fontWeight: '800', color: '#fff' }}>{entry.percentage}%</span>
+            <span className="score-detail" style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.8)' }}>{entry.score}/{entry.total_questions}</span>
           </div>
         </div>
 

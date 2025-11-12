@@ -48,8 +48,8 @@ const QuizCreator = () => {
 
   const publishQuiz = async () => {
     try {
-      console.log('Publishing quiz with ID:', createdQuiz.quiz.id);
-      const response = await api.post(`/api/quiz/${createdQuiz.quiz.id}/publish`);
+      console.log('Publishing quiz with ID:', createdQuiz.quiz._id);
+      const response = await api.post(`/api/quiz/${createdQuiz.quiz._id}/publish`);
       console.log('Publish response:', response.data);
 
       // Update the createdQuiz state to reflect published status

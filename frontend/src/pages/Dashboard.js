@@ -154,9 +154,9 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="container">
+    <div className="container" style={{ maxWidth: '1200px', padding: '40px 24px' }}>
       {/* Hero Section */}
-      <section aria-labelledby="hero-heading" className="slide-in-left" style={{ textAlign: 'center', marginBottom: '48px', position: 'relative' }}>
+      <section aria-labelledby="hero-heading" className="slide-in-left" style={{ textAlign: 'center', marginBottom: '56px', position: 'relative' }}>
         <div style={{
           position: 'absolute',
           top: '-20px',
@@ -170,85 +170,88 @@ const Dashboard = () => {
           zIndex: -1
         }}></div>
         <h1 id="hero-heading" style={{
-          fontSize: '3rem',
+          fontSize: 'clamp(2rem, 5vw, 3rem)',
           fontWeight: '800',
           background: 'linear-gradient(135deg, #667eea, #f093fb, #4facfe)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text',
-          marginBottom: '16px',
+          marginBottom: '20px',
           lineHeight: '1.2',
           animation: 'slideInUp 0.8s ease-out'
         }}>
           Welcome back, {user?.name}! 🎉
         </h1>
         <p style={{ 
-          fontSize: '18px', 
-          color: '#64748b', 
-          maxWidth: '600px', 
+          fontSize: 'clamp(16px, 2vw, 18px)', 
+          color: '#e6eef8', 
+          maxWidth: '700px', 
           margin: '0 auto',
-          lineHeight: '1.6',
-          animation: 'fadeIn 1s ease-out 0.3s both'
+          lineHeight: '1.7',
+          animation: 'fadeIn 1s ease-out 0.3s both',
+          opacity: 0.9
         }}>
           Ready to challenge your mind? Dive into exciting escape room adventures and test your problem-solving skills.
         </p>
       </section>
 
       {/* Stats Dashboard */}
-      <section aria-labelledby="stats-heading" className="stats-grid">
+      <section aria-labelledby="stats-heading" style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+        gap: '24px', 
+        marginBottom: '48px' 
+      }}>
         <h2 id="stats-heading" className="sr-only">Dashboard Statistics</h2>
         <EnhancedStatCard
           icon="👥"
           value={stats.totalTeams}
           label="Total Teams"
-          trend={3}
-          color="#667eea"
+          trend={[10, 12, 15, 18, stats.totalTeams]}
           loading={isLoading}
         />
         <EnhancedStatCard
           icon="🎮"
           value={stats.activeGames}
           label="Active Games"
-          trend={1}
-          color="#f093fb"
+          trend={[5, 8, 6, 10, stats.activeGames]}
           loading={isLoading}
         />
         <EnhancedStatCard
           icon="🏁"
           value={stats.completedQuizzes}
           label="Completed"
-          trend={-2}
-          color="#4facfe"
+          trend={[20, 25, 30, 35, stats.completedQuizzes]}
           loading={isLoading}
         />
         <EnhancedStatCard
           icon="⭐"
           value={stats.averageScore}
           label="Avg Score"
-          trend={5}
-          color="#43e97b"
-          isPercentage={true}
+          trend={[70, 75, 80, 85, stats.averageScore]}
+          decimals={0}
           loading={isLoading}
         />
       </section>
 
       {/* Quick Actions */}
-      <section aria-labelledby="quick-actions-heading" className="card fade-in" style={{ animationDelay: '0.5s' }}>
+      <section aria-labelledby="quick-actions-heading" className="card fade-in" style={{ animationDelay: '0.5s', marginBottom: '32px', padding: '32px' }}>
         <h2 id="quick-actions-heading" style={{ 
-          fontSize: '1.5rem', 
-          fontWeight: '600', 
-          marginBottom: '24px',
-          color: '#1e293b',
+          fontSize: '1.75rem', 
+          fontWeight: '700', 
+          marginBottom: '28px',
+          color: '#e6eef8',
           display: 'flex',
           alignItems: 'center',
-          gap: '8px'
+          gap: '12px',
+          letterSpacing: '-0.5px'
         }}>
           🚀 Quick Actions
         </h2>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '16px'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: '20px'
         }}>
           {quickActions.map((action, index) => (
             <ActionCard 
@@ -262,22 +265,23 @@ const Dashboard = () => {
 
       {/* Admin Section */}
       {user?.email === 'admin@escaperoom.com' && (
-        <section aria-labelledby="admin-controls-heading" className="card fade-in" style={{ animationDelay: '1s' }}>
+        <section aria-labelledby="admin-controls-heading" className="card fade-in" style={{ animationDelay: '1s', marginBottom: '32px', padding: '32px' }}>
           <h2 id="admin-controls-heading" style={{ 
-            fontSize: '1.5rem', 
-            fontWeight: '600', 
-            marginBottom: '24px',
-            color: '#dc2626',
+            fontSize: '1.75rem', 
+            fontWeight: '700', 
+            marginBottom: '28px',
+            color: '#fbbf24',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px'
+            gap: '12px',
+            letterSpacing: '-0.5px'
           }}>
             🔒 Admin Controls
           </h2>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '16px'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: '20px'
           }}>
             {adminActions.map((action, index) => (
               <ActionCard 
@@ -294,20 +298,22 @@ const Dashboard = () => {
       <section aria-labelledby="quote-heading" className="card fade-in" style={{ 
         animationDelay: '1.5s',
         textAlign: 'center',
-        background: '#f8fafc',
-        border: '1px solid #e2e8f0'
+        background: 'rgba(255, 255, 255, 0.05)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        padding: '40px 32px'
       }}>
         <div style={{ fontSize: '2rem', marginBottom: '16px' }}>💡</div>
         <h3 style={{ 
-          fontSize: '1.25rem', 
+          fontSize: '1.35rem', 
           fontWeight: '600', 
-          color: '#334155',
-          marginBottom: '12px',
-          lineHeight: '1.4'
+          color: '#e6eef8',
+          marginBottom: '16px',
+          lineHeight: '1.5',
+          fontStyle: 'italic'
         }}>
           "The key to escape is not just in solving puzzles, but in thinking outside the box."
         </h3>
-        <p style={{ color: '#64748b', fontSize: '14px' }}>Ready to unlock your potential?</p>
+        <p style={{ color: 'rgba(230, 238, 248, 0.7)', fontSize: '15px', marginTop: '12px' }}>Ready to unlock your potential?</p>
       </section>
     </div>
   );

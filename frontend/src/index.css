@@ -27,24 +27,30 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Dark-mode readability */
+  --fg: #e6eef8;
+  --muted: rgba(255, 255, 255, 0.55);
+  --input-bg: rgba(255, 255, 255, 0.04);
+  --input-border: rgba(255, 255, 255, 0.12);
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 @import './styles/design-system.css';
-@import './styles/visual-hierarchy.css';
-@import './styles/button-refinements.css';
 @import './styles/themes.css';
 @import './styles/grid.css';
 @import './styles/motion.css';
 @import './styles/responsive.css';
 @import './styles/animated-background.css';
 @import './styles/ui-polish.css';
+@import './styles/light-card-fix.css';
+@import './styles/performance.css';
 
-body {
+body, .app-root {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--gradient-bg);
+  background: radial-gradient(circle at 10% 10%, #101428, #0b1220);
   min-height: 100vh;
-  color: var(--text-primary);
+  color: var(--fg);
   overflow-x: hidden;
   animation: fadeIn 0.6s ease-out;
 }
@@ -56,12 +62,12 @@ body {
   position: relative;
 }
 
-.card {
-  background: var(--bg-card);
+.card, .panel {
+  background: rgba(7, 12, 20, 0.6);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 32px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 8px 28px rgba(2, 8, 20, 0.6);
   margin-bottom: 24px;
   border: 1px solid var(--border-primary);
   transition: var(--transition), var(--theme-transition);
@@ -178,9 +184,13 @@ body {
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--fg) !important;
   font-size: 14px;
   letter-spacing: 0.3px;
+}
+
+label, .form-label, p, span, h1, h2, h3, h4 {
+  color: var(--fg) !important;
 }
 
 .form-group small {
@@ -203,6 +213,18 @@ body {
   transition: var(--transition);
   font-family: 'Inter', sans-serif;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+input, textarea, select {
+  color: var(--fg) !important;
+  background: var(--input-bg) !important;
+  border: 1px solid var(--input-border) !important;
+  caret-color: #ffffff;
+}
+
+::placeholder {
+  color: var(--muted) !important;
+  opacity: 1;
 }
 
 .form-group textarea {
@@ -236,13 +258,7 @@ body {
 
 /* Animated Background Elements */
 .floating-shapes {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
+  display: none !important;
 }
 
 .shape {

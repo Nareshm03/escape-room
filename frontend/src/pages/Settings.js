@@ -402,8 +402,8 @@ const Settings = () => {
   ];
 
   return (
-    <div className="settings-container">
-      <div className="settings-header slide-in-left">
+    <div className="settings-container light-card">
+      <div className="settings-header slide-in-left light-card">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
           <h1 className="settings-title">⚙️ Application Settings</h1>
           <StatusIndicator
@@ -450,8 +450,8 @@ const Settings = () => {
           </div>
         </div>
         
-        <div className="settings-content slide-in-right">
-          <div className="settings-panel">
+        <div className="settings-content slide-in-right light-card">
+          <div className="settings-panel light-card">
             <div style={{ minHeight: '400px' }}>
               {tabs.find(tab => tab.id === activeTab)?.component()}
             </div>

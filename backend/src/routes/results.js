@@ -25,6 +25,17 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Clear all quiz submissions (admin only)
+router.delete('/clear-all', async (req, res) => {
+  try {
+    const result = await QuizSubmission.deleteMany({});
+    console.log('Cleared all quiz submissions:', result.deletedCount);
+    res.json({ message: 'All quiz submissions cleared', deletedCount: result.deletedCount });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to clear submissions: ' + error.message });
+  }
+});
+
 
 
 

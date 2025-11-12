@@ -1,0 +1,38 @@
+/* Performance Optimizations */
+
+/* Reduce animations */
+* {
+  animation-duration: 0.2s !important;
+  transition-duration: 0.15s !important;
+}
+
+/* Disable expensive animations */
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+}
+
+/* Simplify shadows */
+.card,
+.ds-card,
+.question-manager,
+.admin-control-panel {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Remove backdrop filters */
+.glass,
+.glass-card {
+  backdrop-filter: none !important;
+}
+
+/* Optimize transforms */
+.btn-primary:hover,
+.btn-secondary:hover {
+  transform: none !important;
+}
+
+/* Disable floating animations */
+.floating-shapes,
+.shape {
+  display: none !important;
+}

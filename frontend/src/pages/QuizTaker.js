@@ -56,7 +56,7 @@ const QuizTaker = () => {
 
   const fetchQuiz = async () => {
     try {
-      const response = await api.get(`/quiz/${link}`);
+      const response = await api.get(`/api/quiz/${link}`);
       const data = response.data?.quiz;
       if (!data) {
         throw new Error('Missing quiz data in response');
@@ -94,7 +94,7 @@ const QuizTaker = () => {
 
     // Check if answer is correct
     try {
-      const checkResponse = await api.post(`/quiz/${link}/check`, {
+      const checkResponse = await api.post(`/api/quiz/${link}/check`, {
         questionIndex: currentQuestion,
         answer: currentAnswer,
         unlockedQuestions: unlockedQuestions
@@ -125,7 +125,7 @@ const QuizTaker = () => {
           // Final submission
           setTimeout(async () => {
             try {
-              const submitResponse = await api.post(`/quiz/${link}/submit`, {
+              const submitResponse = await api.post(`/api/quiz/${link}/submit`, {
                 teamName,
                 answers: newAnswers
               });
@@ -190,13 +190,124 @@ const QuizTaker = () => {
   }, [currentQuestion, quiz, settings]);
 
   if (result) {
+    const percentage = Math.round((result.score / result.total) * 100);
+    const isPerfect = percentage === 100;
+    const isGood = percentage >= 70;
+    
     return (
-      <div className="container">
-        <div className="card" style={{ textAlign: 'center' }}>
-          <h2>🎉 Quiz Completed!</h2>
-          <h3>Team: {teamName}</h3>
-          <p><strong>Your Score: {result.score} / {result.total}</strong></p>
-          <p>Percentage: {Math.round((result.score / result.total) * 100)}%</p>
+      <div className="container" style={{ maxWidth: '700px', margin: '0 auto', padding: '60px 24px' }}>
+        <div className="card" style={{ 
+          textAlign: 'center', 
+          padding: '60px 40px',
+          background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1))',
+          border: '2px solid rgba(102, 126, 234, 0.3)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          <div style={{ fontSize: '5rem', marginBottom: '24px', animation: 'bounceIn 0.8s ease-out' }}>
+            {isPerfect ? '🎉' : isGood ? '🎆' : '🎯'}
+          </div>
+          
+          <h2 style={{ 
+            fontSize: 'clamp(2rem, 5vw, 3rem)', 
+            fontWeight: '800',
+            background: 'linear-gradient(135deg, #667eea, #f093fb)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            marginBottom: '16px'
+          }}>Quiz Completed!</h2>
+          
+          <h3 style={{ 
+            fontSize: '1.5rem', 
+            color: '#e6eef8', 
+            marginBottom: '32px',
+            fontWeight: '600'
+          }}>Team: {teamName}</h3>
+          
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+            gap: '20px',
+            marginBottom: '32px'
+          }}>
+            <div style={{
+              padding: '24px',
+              background: 'rgba(102, 126, 234, 0.1)',
+              borderRadius: '16px',
+              border: '1px solid rgba(102, 126, 234, 0.3)'
+            }}>
+              <div style={{ fontSize: '0.9rem', color: 'rgba(230, 238, 248, 0.7)', marginBottom: '8px' }}>Score</div>
+              <div style={{ fontSize: '2rem', fontWeight: '800', color: '#667eea' }}>{result.score} / {result.total}</div>
+            </div>
+            
+            <div style={{
+              padding: '24px',
+              background: isPerfect ? 'rgba(72, 187, 120, 0.1)' : 'rgba(240, 147, 251, 0.1)',
+              borderRadius: '16px',
+              border: `1px solid ${isPerfect ? 'rgba(72, 187, 120, 0.3)' : 'rgba(240, 147, 251, 0.3)'}`
+            }}>
+              <div style={{ fontSize: '0.9rem', color: 'rgba(230, 238, 248, 0.7)', marginBottom: '8px' }}>Percentage</div>
+              <div style={{ fontSize: '2rem', fontWeight: '800', color: isPerfect ? '#48bb78' : '#f093fb' }}>{percentage}%</div>
+            </div>
+          </div>
+          
+          <div style={{
+            padding: '20px',
+            background: 'rgba(255, 255, 255, 0.05)',
+            borderRadius: '12px',
+            marginBottom: '32px'
+          }}>
+            <p style={{ 
+              fontSize: '1.1rem', 
+              color: '#e6eef8', 
+              margin: 0,
+              fontStyle: 'italic'
+            }}>
+              {isPerfect ? '🏆 Perfect Score! Outstanding performance!' : 
+               isGood ? '✨ Great job! Keep up the good work!' : 
+               '💪 Keep practicing, you\'ll do better next time!'}
+            </p>
+          </div>
+          
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button 
+              onClick={() => window.location.href = '/quiz-list'}
+              style={{
+                padding: '14px 32px',
+                background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: '1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.3s'
+              }}
+              onMouseEnter={(e) => e.target.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+            >
+              📋 View All Quizzes
+            </button>
+            
+            <button 
+              onClick={() => window.location.href = '/results'}
+              style={{
+                padding: '14px 32px',
+                background: 'linear-gradient(135deg, #48bb78, #38a169)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: '1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.3s'
+              }}
+              onMouseEnter={(e) => e.target.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+            >
+              📈 View Results
+            </button>
+          </div>
         </div>
       </div>
     );

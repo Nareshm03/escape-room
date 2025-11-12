@@ -95,22 +95,23 @@ const LiveLeaderboardPage = () => {
   const remaining = leaderboard.slice(3);
 
   return (
-    <div className="leaderboard-container">
-      <div className="leaderboard-header">
-        <h1>🔴 Live Leaderboard</h1>
-        <div className="leaderboard-controls">
+    <div className="leaderboard-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 24px' }}>
+      <div className="leaderboard-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
+        <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: '800', background: 'linear-gradient(135deg, #ef4444, #f97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: 0 }}>🔴 Live Leaderboard</h1>
+        <div className="leaderboard-controls" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <button
             className={`refresh-toggle ${autoRefresh ? 'active' : ''}`}
             onClick={toggleAutoRefresh}
             aria-label={autoRefresh ? 'Disable auto-refresh' : 'Enable auto-refresh'}
             aria-pressed={autoRefresh}
+            style={{ padding: '10px 20px', background: autoRefresh ? 'linear-gradient(135deg, #10b981, #059669)' : 'rgba(255, 255, 255, 0.1)', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px' }}
           >
             <span className="toggle-icon">{autoRefresh ? '⏸️' : '▶️'}</span>
             <span className="toggle-label">{autoRefresh ? 'Auto-refresh ON' : 'Auto-refresh OFF'}</span>
           </button>
-          <div className="last-update">
-            <span className="update-label">Last update:</span>
-            <time className="update-time">{formatTimestamp(lastUpdate)}</time>
+          <div className="last-update" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+            <span className="update-label" style={{ fontSize: '0.85rem', color: 'rgba(230, 238, 248, 0.7)' }}>Last update:</span>
+            <time className="update-time" style={{ fontSize: '1rem', fontWeight: '600', color: '#e6eef8' }}>{formatTimestamp(lastUpdate)}</time>
           </div>
         </div>
       </div>

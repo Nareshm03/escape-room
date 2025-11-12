@@ -10,7 +10,7 @@ const Results = () => {
 
   const fetchResults = async () => {
     try {
-      const response = await api.get('/results');
+      const response = await api.get('/api/results');
       setResults(response.data);
     } catch (error) {
       console.error('Error fetching results:', error);
@@ -29,23 +29,23 @@ const Results = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                <th style={{ border: '1px solid #ddd', padding: '8px' }}>Team Name</th>
-                <th style={{ border: '1px solid #ddd', padding: '8px' }}>Quiz</th>
-                <th style={{ border: '1px solid #ddd', padding: '8px' }}>Score</th>
-                <th style={{ border: '1px solid #ddd', padding: '8px' }}>Percentage</th>
-                <th style={{ border: '1px solid #ddd', padding: '8px' }}>Submitted</th>
+                <th style={{ border: '1px solid #ddd', padding: '12px', color: '#fff', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>Team Name</th>
+                <th style={{ border: '1px solid #ddd', padding: '12px', color: '#fff', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>Quiz</th>
+                <th style={{ border: '1px solid #ddd', padding: '12px', color: '#fff', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>Score</th>
+                <th style={{ border: '1px solid #ddd', padding: '12px', color: '#fff', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>Percentage</th>
+                <th style={{ border: '1px solid #ddd', padding: '12px', color: '#fff', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>Submitted</th>
               </tr>
             </thead>
             <tbody>
               {results.map((result, index) => (
-                <tr key={index}>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{result.team_name}</td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{result.quiz_title}</td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{result.score} / {result.total_questions}</td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                <tr key={index} style={{ background: index % 2 === 0 ? '#f8f9fa' : '#ffffff' }}>
+                  <td style={{ border: '1px solid #ddd', padding: '12px', color: '#000' }}>{result.team_name}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '12px', color: '#000' }}>{result.quiz_title}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '12px', color: '#000' }}>{result.score} / {result.total_questions}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '12px', color: '#000' }}>
                     {Math.round((result.score / result.total_questions) * 100)}%
                   </td>
-                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                  <td style={{ border: '1px solid #ddd', padding: '12px', color: '#000' }}>
                     {new Date(result.submitted_at).toLocaleString()}
                   </td>
                 </tr>

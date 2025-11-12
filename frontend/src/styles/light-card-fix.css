@@ -1,0 +1,43 @@
+/* Light Card Visibility Fix - Override dark-mode defaults for white-background cards */
+
+.light-card,
+.light-card * {
+  color: #0f172a !important;
+}
+
+.light-card {
+  background: #fff !important;
+}
+
+.light-card input,
+.light-card textarea,
+.light-card select {
+  color: #0f172a !important;
+  background: #fff !important;
+  border: 1px solid #e6e6e6 !important;
+}
+
+.light-card label,
+.light-card .form-label,
+.light-card p,
+.light-card span,
+.light-card h1,
+.light-card h2,
+.light-card h3,
+.light-card h4,
+.light-card h5,
+.light-card h6 {
+  color: #0f172a !important;
+}
+
+.light-card ::placeholder {
+  color: rgba(15, 23, 42, 0.5) !important;
+}
+
+.light-card .btn {
+  color: #fff !important;
+}
+
+.light-card .btn-secondary {
+  color: #0f172a !important;
+}

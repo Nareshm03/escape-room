@@ -29,11 +29,12 @@ const PodiumWidget = ({ topThree }) => {
                 className="podium-medal"
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 0.3, delay: 0.5 }}
+                style={{ fontSize: '3rem', marginBottom: '12px' }}
               >
                 {position === 1 ? '🥇' : position === 2 ? '🥈' : '🥉'}
               </motion.div>
-              <div className="podium-name">{player.team_name}</div>
-              <div className="podium-score">{player.percentage}%</div>
+              <div className="podium-name" style={{ fontSize: '1.1rem', fontWeight: '700', color: '#fff', marginBottom: '8px', textAlign: 'center' }}>{player.team_name}</div>
+              <div className="podium-score" style={{ fontSize: '1.5rem', fontWeight: '800', color: '#fff' }}>{player.percentage}%</div>
             </motion.div>
           );
         })}

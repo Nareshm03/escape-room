@@ -18,7 +18,7 @@ const PublishConfirmationModal = ({ isOpen, onConfirm, onCancel, quizSummary }) 
         aria-labelledby="modal-title"
       >
         <motion.div
-          className="modal-content"
+          className="modal-content light-card"
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}

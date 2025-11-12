@@ -52,8 +52,15 @@ const GameDashboard = () => {
   const fetchStages = async () => {
     try {
       const response = await api.get('/game/stages');
-      setStages(response.data);
+      if (response.data && Array.isArray(response.data)) {
+        setStages(response.data);
+      } else {
+        setStages([]);
+        setMessage('No game stages available');
+      }
     } catch (error) {
+      console.error('Error loading game:', error);
+      setStages([]);
       setMessage('Error loading game');
     }
   };
@@ -88,8 +95,21 @@ const GameDashboard = () => {
     }
   };
 
-  if (stages.length === 0) {
+  if (stages.length === 0 && !message) {
     return <div className="container">Loading game...</div>;
+  }
+  
+  if (stages.length === 0 && message) {
+    return (
+      <div className="container">
+        <div className="card" style={{ textAlign: 'center' }}>
+          <h2>⚠️ {message}</h2>
+          <button onClick={fetchStages} className="btn btn-primary" style={{ marginTop: '20px' }}>
+            Retry
+          </button>
+        </div>
+      </div>
+    );
   }
 
   const stage = stages[currentStage];

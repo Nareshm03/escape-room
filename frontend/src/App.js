@@ -19,7 +19,6 @@ import GameDashboard from './pages/GameDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import Results from './pages/Results';
 import LiveLeaderboardPage from './pages/LiveLeaderboardPage';
-import QuizCreator from './pages/QuizCreator';
 import QuizWizard3Step from './components/QuizWizard3Step';
 import QuizTaker from './pages/QuizTaker';
 import QuizList from './pages/QuizList';
@@ -28,6 +27,7 @@ import DesignSystem from './pages/DesignSystem';
 import ComponentExample from './pages/ComponentExample';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 import './styles/cinematic-background.css';
 
 const AnimatedRoutes = () => {
@@ -41,7 +41,7 @@ const AnimatedRoutes = () => {
         <Route path="/" element={<ProtectedRoute><PageTransition><Dashboard /></PageTransition></ProtectedRoute>} />
         <Route path="/teams" element={<ProtectedRoute><PageTransition><Teams /></PageTransition></ProtectedRoute>} />
         <Route path="/game" element={<ProtectedRoute><PageTransition><GameDashboard /></PageTransition></ProtectedRoute>} />
-        <Route path="/admin" element={<ProtectedRoute><PageTransition><AdminDashboard /></PageTransition></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute><AdminRoute><PageTransition><AdminDashboard /></PageTransition></AdminRoute></ProtectedRoute>} />
         <Route path="/results" element={<ProtectedRoute><PageTransition><Results /></PageTransition></ProtectedRoute>} />
         <Route path="/live" element={<ProtectedRoute><PageTransition><LiveLeaderboardPage /></PageTransition></ProtectedRoute>} />
         <Route path="/quiz-creator" element={<ProtectedRoute><PageTransition><QuizWizard3Step /></PageTransition></ProtectedRoute>} />

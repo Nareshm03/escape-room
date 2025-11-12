@@ -60,7 +60,7 @@ const Navbar = () => {
   };
 
   const isActive = (path) => location.pathname === path;
-  const isAdmin = user?.email === 'admin@escaperoom.com';
+  const isAdmin = user?.role === 'admin' || user?.email === 'admin@escaperoom.com';
 
   const navItems = [
     { path: '/', label: 'Dashboard', icon: '⊞' },
@@ -69,6 +69,10 @@ const Navbar = () => {
     { path: '/results', label: 'Results', icon: '🏆' },
     { path: '/live', label: 'Live', icon: '📡' }
   ];
+
+  const adminNavItems = isAdmin ? [
+    { path: '/admin', label: 'Admin Panel', icon: '🛠️' }
+  ] : [];
 
   const adminItems = [
     { path: '/quiz-creator', label: 'Create', icon: '➕' },
@@ -88,13 +92,14 @@ const Navbar = () => {
         {user ? (
           <>
             <div className={`navbar-main ${mobileMenuOpen ? 'open' : ''}`}>
-              {navItems.map((item) => (
+              {[...navItems, ...adminNavItems].map((item) => (
                 <Link
                   key={item.path}
                   to={item.path}
                   className={`nav-item ${isActive(item.path) ? 'active' : ''}`}
                   onClick={() => setMobileMenuOpen(false)}
                   aria-current={isActive(item.path) ? 'page' : undefined}
+                  data-testid={item.path === '/admin' ? 'admin-panel-link' : undefined}
                 >
                   <span className="nav-icon" aria-hidden="true">{item.icon}</span>
                   {item.label}
